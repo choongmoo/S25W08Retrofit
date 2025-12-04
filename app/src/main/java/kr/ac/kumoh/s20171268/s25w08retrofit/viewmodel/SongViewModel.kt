@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kr.ac.kumoh.s20171268.s25w08retrofit.model.Song
 import kr.ac.kumoh.s20171268.s25w08retrofit.repository.SongRepository
 import java.util.UUID
+import kotlin.collections.filter
 import kotlin.collections.find
 
 class SongViewModel(
@@ -62,6 +63,17 @@ class SongViewModel(
                 _songList.value = _songList.value + newSong
             } catch(e: Exception) {
                 Log.e("addSong()", e.toString())
+            }
+        }
+    }
+
+    fun deleteSong(songId: String) {
+        viewModelScope.launch {
+            try {
+                repository.deleteSong(songId)
+                _songList.value = _songList.value.filter { it.id != songId }
+            } catch(e: Exception) {
+                Log.e("deleteSong()", e.toString())
             }
         }
     }

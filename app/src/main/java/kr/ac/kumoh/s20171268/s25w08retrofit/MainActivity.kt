@@ -122,7 +122,12 @@ fun MainScreen(viewModel: SongViewModel = viewModel()) {
                 modifier = Modifier.padding(innerPadding),
             ) {
                 composable(SONG_SCREEN) {
-                    SongList(songList) {
+                    SongList(
+                        songList,
+                        onDelete = { songId ->
+                            viewModel.deleteSong(songId)
+                        }
+                    ) {
                         // Stack은 유지하면서 중복 생성만 방지함
                         navController.navigate("$SONG_DETAIL_SCREEN/$it") {
                             launchSingleTop = true
